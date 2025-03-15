@@ -1,0 +1,158 @@
+Brainr
+brainr is a React Native application delivers a dynamic and engaging way to explore Wikipedia articles. Users swipe through visually appealing article cards, similar to a popular short-form video platform, allowing for rapid discovery of diverse topics. Personalization is key, with users selecting their preferred subjects during onboarding and managing them within their profile. Features like liking, bookmarking, and sharing enhance interaction, while intuitive swipe gestures provide seamless navigation.
+List of Screens
+
+Onboarding Screens (4 screens):
+Welcome and core concept introduction.
+Explanation of swipe actions (left, right, up, down).
+Explanation of action buttons (like, bookmark, share).
+Topic selection (user preference for article categories), and "Get Started" prompt.
+Home Screen (Article Swipe):
+Displays stacked article cards.
+Handles left/right (dismiss/read more) and up/down (next/previous) swipes.
+Includes like, bookmark, and share action buttons.
+Handles article fetching and display.
+Profile Screen:
+Displays user's profile (initially basic, potentially username).
+Shows user's selected topics of interest.
+Provides functionality to edit topic preferences.
+Bookmarks Screen:
+Displays a list of bookmarked articles.
+Allows users to add/remove bookmarks.
+Loading/Splash Screen (Optional, but Recommended):
+Displays app logo and loading indicator during initialization.
+
+Design System
+
+🎨 Color Scheme
+Dark Mode First (Modern & Sleek)
+Background: Dark Gray/Black (#121212 or #1E1E1E)
+Text: White (#FFFFFF) or Light Gray (#E0E0E0)
+Primary Accent (Buttons & Highlights): Electric Blue (#00AEEF) or Vibrant Purple (#7B61FF)
+Secondary Accent: Soft Gradient (Blue-Purple or Orange-Pink)
+Light Mode Option (Clean & Minimalist)
+Background: Off-White (#FAFAFA) or Light Gray (#F5F5F5)
+Text: Dark Gray (#212121)
+Primary Accent: Navy Blue (#004AAD) or Deep Green (#00875A)
+Secondary Accent: Subtle Pastels for Highlights
+🔤 Typography (Readable & Engaging)
+Headline Font: Montserrat or Poppins (Bold, Sans-Serif)
+Body Text: Inter or Open Sans (Crisp and Easy to Read)
+Button/Action Text: Medium-weight, all caps for clarity
+🎭 UI Style & Aesthetic
+Card-Based Layout: Swipeable, smooth animations.
+Glassmorphism Elements: Light transparency on cards for a futuristic feel.
+Micro-Animations: Subtle transitions when swiping or saving articles.
+Rounded Corners: Soft, friendly feel (e.g., border-radius: 12px+).
+🔄 Icon & Interaction Design
+Swipe Indicators:
+Swipe Left = 🚫 (Dislike, Skip)
+Swipe Right = ✅ (Like, Save for Later)
+Navigation: Minimalist bottom navigation (Home, Saved, Settings)
+Floating "Read More" Button: Pulsing effect for attention
+🖌 Additional Design Considerations
+Dark Mode as Default: Aligns with modern user preferences.
+Gradient Accents: Adds a premium feel.
+Engaging Animations: Swipes, transitions, and button presses should feel smooth and natural.
+Easy Accessibility: High contrast, legible fonts, and intuitive gestures.
+Technical Specifications
+Goals
+Develop a functional and engaging React Native application.
+Implement a swipe-based interface for article exploration.
+Enable users to personalize content through topic selection.
+Provide features for liking, bookmarking, and sharing articles.
+Ensure a smooth and responsive user experience.
+Technologies
+React Native (latest stable version)
+JavaScript/TypeScript (preferred)
+react-native-gesture-handler
+react-native-reanimated
+axios
+react-native-fast-image
+AsyncStorage
+Application Architecture
+Component-Based: Utilize React Native's component-based architecture for modularity and reusability.
+State Management: Implement state management using React Context, Redux, or Zustand (agent's choice, based on complexity analysis).
+API Interactions: Use axios to interact with the Wikipedia API.
+Data Persistence: Employ AsyncStorage for local data storage (user preferences, bookmarks).
+Screen Specifications
+Onboarding Screens
+Screen 1 (Welcome):
+Display app logo, welcome message, and core concept illustration.
+"Next" button or swipe gesture to proceed.
+Screen 2 (Swipe Actions):
+Visual representation of left, right, up, and down swipe actions.
+Text descriptions of each action.
+"Next" button or swipe gesture to proceed.
+Screen 3 (Topic Selection):
+Grid or list of topic icons/images (e.g., History, Science, Geography).
+Allow multi-select functionality.
+Store selected topics in app state.
+"Next" button or swipe gesture to proceed.
+Screen 4 (Action Buttons & Get Started):
+Highlight like, bookmark, and share buttons with brief descriptions.
+"Get Started" button to navigate to the Home Screen.
+Provide a skip button on all onboarding screens except the last.
+Home Screen (Article Swipe)
+Article Card Display:
+Stacked card layout.
+Display article title, image (using react-native-fast-image), and extract.
+Swipe Gestures:
+Left swipe: Dismiss article.
+Right swipe: "Read More" (open full article).
+Up swipe: Next article.
+Down swipe: Previous article.
+Action Buttons:
+Like/Favorite (heart icon).
+Bookmark (bookmark icon).
+Share (share icon).
+Wikipedia API Integration:
+Fetch random articles based on user's selected topics (if available).
+Display loading indicators during API calls.
+Card Stack Management:
+Implement a limited stack of articles for smooth navigation.
+Handle edge cases (e.g., no previous articles).
+Read More functionality:
+Display the full article in a modal, webview, or formatted text.
+Profile Screen
+User Profile Display:
+Display user's username (or generated ID).
+Display selected topics with corresponding icons/images.
+Topic Editing:
+"Edit" button or tap on topics to open topic selection modal.
+Persist changes to AsyncStorage.
+Bookmarks Screen
+Bookmark List:
+Display bookmarked articles with title and thumbnail.
+Allow removal of bookmarks.
+Data Persistence:
+Use AsyncStorage to store bookmarks.
+Loading/Splash Screen
+Display app logo and loading indicator during initialization.
+Navigate to the Home Screen once the first article is loaded.
+Wikipedia API Integration
+Random Article Retrieval:
+Use action=query, list=random, rnlimit=1, format=json.
+Article Content Extraction:
+Use action=query, prop=extracts|pageimages, pageids, exintro, explaintext, pithumbsize, format=json, origin=*.
+Adapt API calls to filter articles based on user preferences.
+User Interface (UI) and User Experience (UX)
+Consistent Design: Maintain a consistent UI across all screens.
+Smooth Animations: Use react-native-reanimated for smooth animations.
+Responsive Design: Ensure the app works on various screen sizes.
+Accessibility: Adhere to accessibility guidelines.
+8. Data Storage
+AsyncStorage will store:
+User's selected topics.
+Bookmarked articles.
+Onboarding completion status.
+9. Error Handling
+Implement error handling for API requests and image loading.
+Display appropriate error messages to the user.
+10. Testing
+Unit tests for core components.
+End-to-end tests 	for user flows.
+Cross-device testing.
+11. Deployment
+Generate APK and IPA files for Android and iOS deployment.
+Follow platform-specific deployment guidelines.
