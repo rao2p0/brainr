@@ -75,23 +75,29 @@ const ArticleCard = ({
     const dy = e.nativeEvent.pageY - startY.current;
     
     // Determine if this is a horizontal or vertical swipe
-    if (Math.abs(dx) > 20 || Math.abs(dy) > 20) {
-      if (Math.abs(dx) > Math.abs(dy) * 1.5) {
-        // Clear horizontal swipe - needs to be significantly more horizontal
-        if (dx > 50) {
-          setSwipeIndicator('right');
-        } else if (dx < -50) {
+    if (Math.abs(dx) > 10 || Math.abs(dy) > 10) {
+      // Calculate the angle of the swipe
+      const angle = Math.atan2(Math.abs(dy), Math.abs(dx)) * 180 / Math.PI;
+      
+      // Horizontal swipe detection (angle less than 30 degrees from horizontal)
+      if (angle < 30) {
+        // Only show left swipe indicator (for "read more")
+        if (dx < -30) {
           setSwipeIndicator('left');
+        } else {
+          setSwipeIndicator(null);
         }
-      } else if (Math.abs(dy) > Math.abs(dx) * 1.2) {
-        // Vertical swipe - now works anywhere on screen with a vertical bias
-        if (dy > 50) {
+      } 
+      // Vertical swipe detection (angle more than 60 degrees from horizontal)
+      else if (angle > 60) {
+        if (dy > 30) {
           setSwipeIndicator('down');
-        } else if (dy < -50) {
+        } else if (dy < -30) {
           setSwipeIndicator('up');
         }
-      } else {
-        // Ambiguous direction - let's wait for more movement
+      } 
+      // Diagonal movement - wait for clearer direction
+      else {
         setSwipeIndicator(null);
       }
     }
@@ -110,31 +116,29 @@ const ArticleCard = ({
       return;
     }
     
-    // Handle swipe gestures
-    if (Math.abs(dx) > Math.abs(dy) * 1.5) {
-      // Horizontal swipe - needs to be significantly more horizontal
-      if (dx > SWIPE_THRESHOLD) {
-        console.log("Swipe RIGHT detected");
+    // Calculate the angle of the swipe
+    const angle = Math.atan2(Math.abs(dy), Math.abs(dx)) * 180 / Math.PI;
+    
+    // Handle swipe gestures with improved angle-based detection
+    if (angle < 30 && Math.abs(dx) > SWIPE_THRESHOLD) {
+      // Left swipe - for "read more"
+      if (dx < 0) {
+        console.log("Swipe LEFT detected - Read More");
         swipeHandled.current = true;
         if (onSwipeRight && article) {
+          // Call onSwipeRight (which navigates to article detail)
           onSwipeRight(article);
         }
-      } else if (dx < -SWIPE_THRESHOLD) {
-        console.log("Swipe LEFT detected");
-        swipeHandled.current = true;
-        if (onSwipeLeft && article) {
-          onSwipeLeft(article);
-        }
       }
-    } else if (Math.abs(dy) > Math.abs(dx) * 1.2) {
-      // Vertical swipe - now works anywhere with a vertical bias
-      if (dy > SWIPE_THRESHOLD) {
+    } else if (angle > 60 && Math.abs(dy) > SWIPE_THRESHOLD) {
+      // Vertical swipe
+      if (dy > 0) {
         console.log("Swipe DOWN detected");
         swipeHandled.current = true;
         if (onSwipeDown && article) {
           onSwipeDown(article);
         }
-      } else if (dy < -SWIPE_THRESHOLD) {
+      } else if (dy < 0) {
         console.log("Swipe UP detected");
         swipeHandled.current = true;
         if (onSwipeUp && article) {
@@ -165,15 +169,8 @@ const ArticleCard = ({
     >
       {/* Swipe indicators - only shown during active swipe */}
       {swipeIndicator === 'left' && (
-        <View style={[styles.swipeIndicator, styles.leftSwipeIndicator]}>
-          <Icon name="close-circle" size={60} color="#FF5252" />
-          <Text style={[styles.swipeText, { color: '#FF5252' }]}>Skip</Text>
-        </View>
-      )}
-      
-      {swipeIndicator === 'right' && (
         <View style={[styles.swipeIndicator, styles.rightSwipeIndicator]}>
-          <Icon name="check-circle" size={60} color="#4CAF50" />
+          <Icon name="arrow-right-circle" size={60} color="#4CAF50" />
           <Text style={[styles.swipeText, { color: '#4CAF50' }]}>Read More</Text>
         </View>
       )}
