@@ -100,7 +100,17 @@ export const saveBookmark = async (article) => {
     
     // Check if already bookmarked
     if (!bookmarks.some(bookmark => bookmark.pageid === article.pageid)) {
-      bookmarks.push(article);
+      // Create a standardized bookmark object with all necessary fields
+      const bookmarkData = {
+        pageid: article.pageid,
+        title: article.title,
+        extract: article.extract,
+        thumbnail: article.thumbnail,
+        url: article.url || `https://en.wikipedia.org/?curid=${article.pageid}`,
+        timestamp: new Date().toISOString(),
+      };
+      
+      bookmarks.push(bookmarkData);
       await AsyncStorage.setItem(STORAGE_KEYS.BOOKMARKS, JSON.stringify(bookmarks));
       console.log('saveBookmark: Bookmark saved successfully');
     } else {

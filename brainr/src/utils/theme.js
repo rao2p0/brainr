@@ -11,6 +11,7 @@ export const COLORS = {
     text: '#FFFFFF',
     textSecondary: '#E0E0E0',
     primary: '#00AEEF', // Electric Blue
+    primaryLight: 'rgba(0, 174, 239, 0.15)', // Light version of Electric Blue
     secondary: '#7B61FF', // Vibrant Purple
     accent: '#FF61A6', // Pink accent for gradients
     card: 'rgba(40, 40, 40, 0.8)', // Glassmorphism effect
@@ -25,6 +26,7 @@ export const COLORS = {
     text: '#212121',
     textSecondary: '#424242',
     primary: '#004AAD', // Navy Blue
+    primaryLight: 'rgba(0, 74, 173, 0.15)', // Light version of Navy Blue
     secondary: '#00875A', // Deep Green
     accent: '#FFA000', // Amber accent
     card: 'rgba(255, 255, 255, 0.8)', // Glassmorphism effect

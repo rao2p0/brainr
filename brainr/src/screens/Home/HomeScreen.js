@@ -22,23 +22,17 @@ const HomeScreen = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [likedArticles, setLikedArticles] = useState({});
-  const [bookmarkedArticles, setBookmarkedArticles] = useState({});
   
   const navigation = useNavigation();
-  const { colors, userTopics } = useApp();
+  const { colors, userTopics, addBookmark, removeBookmark, isBookmarked, bookmarks } = useApp();
   
   // Load saved articles from AsyncStorage
   const loadSavedArticles = async () => {
     try {
       const likedData = await AsyncStorage.getItem('likedArticles');
-      const bookmarkedData = await AsyncStorage.getItem('bookmarkedArticles');
       
       if (likedData) {
         setLikedArticles(JSON.parse(likedData));
-      }
-      
-      if (bookmarkedData) {
-        setBookmarkedArticles(JSON.parse(bookmarkedData));
       }
     } catch (error) {
       console.error('Error loading saved articles:', error);
@@ -155,23 +149,13 @@ const HomeScreen = () => {
   // Handle bookmark/unbookmark article
   const handleBookmarkArticle = async (article) => {
     try {
-      const isBookmarked = bookmarkedArticles[article.pageid];
-      const updatedBookmarkedArticles = { ...bookmarkedArticles };
+      const bookmarked = isBookmarked(article.pageid);
       
-      if (isBookmarked) {
-        delete updatedBookmarkedArticles[article.pageid];
+      if (bookmarked) {
+        await removeBookmark(article.pageid);
       } else {
-        updatedBookmarkedArticles[article.pageid] = {
-          id: article.pageid,
-          title: article.title,
-          extract: article.extract,
-          thumbnail: article.thumbnail,
-          timestamp: new Date().toISOString(),
-        };
+        await addBookmark(article);
       }
-      
-      setBookmarkedArticles(updatedBookmarkedArticles);
-      await AsyncStorage.setItem('bookmarkedArticles', JSON.stringify(updatedBookmarkedArticles));
     } catch (error) {
       console.error('Error saving bookmarked article:', error);
     }
@@ -255,7 +239,7 @@ const HomeScreen = () => {
           onBookmark={handleBookmarkArticle}
           onShare={handleShareArticle}
           isLiked={likedArticles[currentArticle.pageid] !== undefined}
-          isBookmarked={bookmarkedArticles[currentArticle.pageid] !== undefined}
+          isBookmarked={isBookmarked(currentArticle.pageid)}
         />
       )}
     </View>

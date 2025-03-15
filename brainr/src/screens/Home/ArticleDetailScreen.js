@@ -111,7 +111,10 @@ const ArticleDetailScreen = ({ route, navigation }) => {
           {/* Action buttons */}
           <View style={[styles.actionButtons, { backgroundColor: colors.surface }]}>
             <TouchableOpacity 
-              style={styles.actionButton} 
+              style={[
+                styles.actionButton, 
+                bookmarked ? [styles.activeBookmarkButton, { backgroundColor: colors.primaryLight, borderColor: colors.primary }] : {}
+              ]} 
               onPress={handleBookmark}
             >
               <Icon 
@@ -119,7 +122,12 @@ const ArticleDetailScreen = ({ route, navigation }) => {
                 size={28} 
                 color={bookmarked ? colors.primary : colors.text} 
               />
-              <Text style={[styles.actionButtonText, { color: colors.textSecondary }]}>
+              <Text 
+                style={[
+                  styles.actionButtonText, 
+                  { color: bookmarked ? colors.primary : colors.textSecondary }
+                ]}
+              >
                 {bookmarked ? 'Saved' : 'Save'}
               </Text>
             </TouchableOpacity>
@@ -217,7 +225,13 @@ const styles = StyleSheet.create({
     ...SHADOWS.medium,
   },
   actionButton: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
+    padding: SPACING.sm,
+  },
+  activeBookmarkButton: {
+    borderWidth: 1,
     padding: SPACING.sm,
   },
   actionButtonText: {
